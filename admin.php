@@ -1,7 +1,8 @@
 <?php
 include ('includes/header.php');
 
-    
+    //Si intentasen acceder directamente a la página de administración sin las credenciales necesarias,
+    //lo redirige automáticamente al index
 
     if($_SESSION['rol'] == 'customer'){
         header("location: index.php");

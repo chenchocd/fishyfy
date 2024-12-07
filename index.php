@@ -8,7 +8,7 @@ if(!logged_in()){
 
 
 
-    <!-- Main Content -->
+    <!-- Contenido Principal -->
     <main>
         
         <section class="main_products">
@@ -32,6 +32,7 @@ if(!logged_in()){
 <div class="filters_container" data-aos="zoom-in" data-aos-duration="500">
         <div class="search_bar_container">
             <form action="search.php" method="GET">
+            <label for="category">Buscar Producto:</label>
                 <div class="search-container">
                 <input type="text" name="search" placeholder="Search..." class="search-input">
                 <button type="submit" class="search-btn">

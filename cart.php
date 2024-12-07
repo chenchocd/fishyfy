@@ -7,20 +7,26 @@ if(!logged_in()){
 ?>
 
 <?php
-    $user_id = $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id'];    
+    /*
+    Esta consulta recupera un carrito de compras, uniendo información de dos tablas (carrito y producto)
+    */
     $sql = "SELECT carrito.id, productos.nombre, productos.precio_kg, productos.id, productos.stock, carrito.preparacion, SUM(carrito.cantidad) AS cantidad_carrito FROM carrito JOIN productos ON carrito.id_producto = productos.id WHERE carrito.id_usuario = $user_id GROUP BY carrito.id_producto";
     $result = mysqli_query($conexion, $sql);
 
+    //Consulta para saber la cantidad total de un producto
     $sql2 = "SELECT SUM(carrito.cantidad) AS cantidad_total FROM carrito WHERE carrito.id_usuario = $user_id";
     $total_result = mysqli_query($conexion, $sql2);
     $cantidad_array = mysqli_fetch_assoc($total_result);
     $cantidad_total = $cantidad_array['cantidad_total'];
 
+    //Consulta para saber el precio total 
     $sql3= "SELECT SUM(productos.precio_kg * carrito.cantidad) AS precio_total FROM carrito JOIN productos ON carrito.id_producto = productos.id WHERE carrito.id_usuario = $user_id";
     $total_price = mysqli_query($conexion, $sql3);
     $precio_array = mysqli_fetch_assoc($total_price);
     $precio_total = round($precio_array['precio_total'],2);
 
+    //Consulta para que se muestren los productos en el carrusel
     $sql4= $sql = "SELECT productos.nombre, productos.id, productos.precio_kg, productos.imagen, categorias.nombre AS category_name FROM productos JOIN categorias ON productos.id_categoria = categorias.id";
     $result2 = mysqli_query($conexion, $sql);
 
