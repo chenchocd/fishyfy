@@ -69,7 +69,8 @@ display_message();
            title="El nombre de usuario debe tener entre 4 y 20 caracteres y solo puede contener letras, números y guiones bajos.">
         <!-- Campo Correo Electrónico -->
         <input type="email" placeholder="Correo electrónico" name="email" 
-           required title="Introduce un correo electrónico válido.">
+            required title="Introduce un correo electrónico de Gmail válido (por ejemplo: usuario@gmail.com)."
+            pattern="[a-zA-Z0-9._%+-]+@gmail\.com">
         <!-- Campo Teléfono -->
         <input type="text" placeholder="Teléfono" name="phone" 
            required pattern="\d{9}" 

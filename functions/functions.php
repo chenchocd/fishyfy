@@ -1,15 +1,15 @@
 <?php
 //Funciones helpers
 
-//Import PHPMailer classes into the global namespace
-//These must be at the top of your script, not inside a function
+// Importar las clases de PHPMailer
+// Deben estar al principio, no dentro de una función
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 
 
-//Load Composer's autoloader
+
 
 require $_SERVER['DOCUMENT_ROOT'] . '/pescaderia/vendor/autoload.php';
 Dotenv\Dotenv::createUnsafeImmutable(__DIR__ . '/../')->load();
@@ -81,73 +81,21 @@ function register_user($first_name, $last_name, $user_name, $email, $phone, $pas
     
 }
 
-/*function send_email($to, $subject, $message, $from)
-{
-	$url = 'smtp://sandbox.smtp.mailtrap.io:2525'; // Replace with your Mailtrap url
-	$username = '5fe26787e818d0'; // Replace with your Mailtrap username
-	$password = '0fa7c3166746f7'; // Replace with your Mailtrap password
-
-	// Define the email headers and content
-	$email_content = <<<EOF
-From: $from
-To: $to
-Subject: $subject
-Content-Type: multipart/alternative; boundary="boundary-string"
-
---boundary-string
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-
-$message
-
---boundary-string--
-EOF;
-
-	// Initialize curl
-	$ch = curl_init();
-
-	// Set curl options for SMTP request
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_PORT, 2525);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Use SSL (if required)
-	curl_setopt($ch, CURLOPT_USERNAME, $username);
-	curl_setopt($ch, CURLOPT_PASSWORD, $password);
-
-	// Set the mail headers and body
-	curl_setopt($ch, CURLOPT_MAIL_FROM, $from);
-	curl_setopt($ch, CURLOPT_MAIL_RCPT, [$to]);
-	curl_setopt($ch, CURLOPT_UPLOAD, true);
-	curl_setopt($ch, CURLOPT_INFILE, fopen('data://text/plain,' . $email_content, 'r'));
-
-	// Execute the curl request
-	$result = curl_exec($ch);
-
-	// Check for errors
-	if (curl_errno($ch)) {
-		echo 'Curl error: ' . curl_error($ch);
-	} else {
-		echo 'Mail sent successfully';
-	}
-
-	// Close curl
-	curl_close($ch);
-
-	return $result;
-}*/
-
+/*
+La función send_email es una implementación que utiliza la biblioteca PHPMailer 
+para enviar un correo electrónico a través del servidor SMTP de Gmail.
+*/
 function send_email($subject, $message, $user){
-    // Gmail SMTP configuration
-    $email = 'desarrollotest843@gmail.com'; // Your Gmail address
-    $appPassword = getenv('PASS_EMAIL'); // Gmail App Password
+    //Configuración de SMTP de Gmail
+    $email = 'desarrollotest843@gmail.com'; // Dirección de gmail
+    $appPassword = getenv('PASS_EMAIL'); //Contraseña de la App de Gmail, está cifrada en el archivo .env
     
 
-    // Create a new PHPMailer instance
+    //Crea una nueva instancia de PHPMailer
     $mail = new PHPMailer(true);
 
     try {
-        // Server settings
+        //Configuraciones del servidor, tal y como lo documenta en la librería
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
@@ -156,18 +104,18 @@ function send_email($subject, $message, $user){
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
-        // Email headers
-        $mail->setFrom($email, 'Your Name'); // Sender (your Gmail)
-        $mail->addAddress($user); // Recipient (same Gmail address)
-        $mail->addCC($email);
-        $mail->Subject = $subject;
+        //Encabezado del correo
+        $mail->setFrom($email, 'Your Name'); //Remitente (mi Gmail)
+        $mail->addAddress($user); //Destinatario, (correo del usuario)
+        $mail->addCC($email); //Añadir copia a mi correo
+        $mail->Subject = $subject; //Asunto del correo
 
         // Email content
-        $mail->isHTML(true); // Set email format to HTML
-        $mail->Body = $message;
-        $mail->AltBody = strip_tags($message); // Fallback for plain text clients
+        $mail->isHTML(true); //Dar formato HTML al correo
+        $mail->Body = $message; //Contenido principal del mensaje
+        $mail->AltBody = strip_tags($message); //Texto plano
 
-        // Send email
+        //Enviar email
         $mail->send();
         echo 'Mail sent successfully to yourself.';
     } catch (Exception $e) {
@@ -233,56 +181,7 @@ function validate_user_registration(){
         $password = clean($_POST['password']);
         $confirm_password = clean($_POST['confirm_password']);
         
-        //Validación de longitud para cada campo
-        /*if(strlen($first_name)<$min){
-            $errors[] = "El nombre debe tener mínimo {$min} carácteres.";
-        }
-        
-        if(strlen($first_name)>$max){
-            $errors[] = "El nombre debe tener máximo {$max} carácteres.";
-        }
-        
-        if(strlen($last_name)<$min){
-            $errors[] = "El apellido debe tener mínimo {$min} carácteres.";
-        }
 
-        if(strlen($last_name)>$max){
-            $errors[] = "El apellido debe tener máximo {$max} carácteres.";
-        }
-
-        if(strlen($user_name)<$min){
-            $errors[] = "El nombre de usuario debe tener mínimo {$min} carácteres.";
-        }
-
-        if(strlen($user_name)>$max){
-            $errors[] = "El nombre de usuario debe tener máximo {$max} carácteres.";
-        }
-
-        if(strlen($email)<$min){
-            $errors[] = "El email debe tener mínimo {$min} carácteres.";
-        }
-
-        if(strlen($email)>$max){
-            $errors[] = "El email debe tener máximo {$max} carácteres.";
-        }
-
-        if(strlen($phone)<$min){
-            $errors[] = "El teléfono debe tener mínimo {$min} carácteres.";
-        }
-
-        if(strlen($phone)>$max){
-            $errors[] = "El teléfono debe tener máximo {$max} carácteres.";
-        }
-
-        if(strlen($password)<$min){
-            $errors[] = "La contraseña debe tener mínimo {$min} carácteres.";
-        }
-
-        if(strlen($password)>$max){
-            $errors[] = "La contraseña debe tener máximo {$max} carácteres.";
-        }*/
-
-        
         //Verificación de existencia de usuario y correo electrónico en la bbdd
         if(username_exist($user_name)){
             $errors[] = "El usuario ya existe";
@@ -464,7 +363,10 @@ function delete_cart_item(){
         exit();
     }
 }
-
+/*
+Es una abreviatura de "Dump and Die" (volcar y detener) y su propósito es mostrar datos en un formato legible
+y detener la ejecución del script para facilitar la depuración.
+*/
 function dd($data){
     echo '<pre>';
     print_r($data);

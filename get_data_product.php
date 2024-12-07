@@ -15,9 +15,9 @@ $sql1 = "SELECT * FROM productos WHERE productos.id = '$product_id'";
 $result = mysqli_query($conexion, $sql1);
 $product = mysqli_fetch_assoc($result);
 
-//echo json_encode(['price' => $fake_price["22"]]);
+
 if($product_id){
-    //echo json_encode(['price' => $product['precio_kg']]);
+    
     echo json_encode(['price' => $product['precio_kg']]);
 }else{
     echo json_encode(['error'=>'id del producto invalido']);
