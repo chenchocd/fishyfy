@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-12-2024 a las 18:27:08
+-- Tiempo de generación: 09-12-2024 a las 17:18:05
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -40,7 +40,8 @@ CREATE TABLE `carrito` (
 --
 
 INSERT INTO `carrito` (`id`, `id_usuario`, `id_producto`, `cantidad`, `preparacion`) VALUES
-(106, 22, 50, 1.5, 'Fileteado');
+(122, 4, 51, 0.5, 'Limpio y entero'),
+(123, 22, 50, 0.5, '');
 
 -- --------------------------------------------------------
 
@@ -106,7 +107,9 @@ INSERT INTO `carritos_finalizados` (`id`, `id_usuario`, `id_producto`, `cantidad
 (42, 4, 50, 1, 'Limpio y entero', 68),
 (43, 4, 51, 2, 'Limpio y entero', 69),
 (44, 4, 50, 1, 'Abierto sin espina', 70),
-(45, 4, 53, 2, '', 71);
+(45, 4, 53, 2, '', 71),
+(46, 22, 50, 2, 'Fileteado', 72),
+(47, 22, 50, 1, 'Fileteado', 72);
 
 -- --------------------------------------------------------
 
@@ -209,7 +212,8 @@ INSERT INTO `ordenes` (`id`, `usuario_id`, `fecha_compra`, `precio_total`, `hora
 (68, 4, '2024-12-06', 4.00, '19:29:00'),
 (69, 4, '2024-12-08', 7.49, '14:03:00'),
 (70, 4, '2024-12-08', 4.00, '18:06:00'),
-(71, 4, '2024-12-08', 13.43, '19:14:00');
+(71, 4, '2024-12-08', 13.43, '19:14:00'),
+(72, 22, '2024-12-08', 9.98, '19:42:00');
 
 -- --------------------------------------------------------
 
@@ -256,7 +260,8 @@ CREATE TABLE `productos` (
 INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `precio_kg`, `stock`, `imagen`, `id_categoria`) VALUES
 (50, 'Pescadilla', 'Pescadilla 1-2kg aprox. Producto de peso variable, la cantidad y precio puede variar ligeramente.', 4.99, 12, '673b0a25d7167pescadilla.webp', 1),
 (51, 'Bacaladilla', 'Bacaladilla fresca. Producto de peso variable, la cantidad y precio puede variar ligeramente.', 4.99, 10, '673b0b02bfd7dbacaladilla.webp', 2),
-(53, 'Langostino', 'Langostino fresco 30-40 piezas por kilogramo.', 8.95, 20, '673ceeaeab171langostino.webp', 4);
+(53, 'Langostino', 'Langostino fresco 30-40 piezas por kilogramo.', 8.95, 20, '673ceeaeab171langostino.webp', 4),
+(54, 'Calamar', 'Calamar fresco', 11.99, 10, '675711916d21ecalamar.webp', 3);
 
 -- --------------------------------------------------------
 
@@ -280,7 +285,9 @@ INSERT INTO `productos_preparacion` (`id_producto`, `id_preparacion`) VALUES
 (50, 4),
 (50, 5),
 (51, 2),
-(53, 2);
+(53, 2),
+(54, 2),
+(54, 5);
 
 -- --------------------------------------------------------
 
@@ -308,8 +315,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `user_name`, `email`, `phone`, `password`, `validation_code`, `active`, `rol`) VALUES
 (4, 'juan', 'juan', 'juan', 'juan@juan.com', 777777777, 'a94652aa97c7211ba8954dd15a3cf838', '0', 1, 'customer'),
 (22, 'sergio', 'cordero', 'sergio', 'sergio-cordero@hotmail.es', 690365580, '30aa11d00f675da5379173694f4d4a75', '0', 1, 'admin'),
-(45, 'pepa', 'pepa', 'pepa', 'desarrollotest843@gmail.com', 111111111, '30aa11d00f675da5379173694f4d4a75', 'eb8c1cff317666020895d94b0476b0ab', 0, 'customer'),
-(46, 'sara', 'sara', 'sara', 'sara@sara.com', 111111111, 'f3329818d419a34fcb14f7a20fbe82b3', 'acb057bc971bc2cb05871fc6d16eb897', 0, 'customer');
+(47, 'admin', 'admin', 'admin', 'desarrollotest843@gmail.com', 222222222, 'c93ccd78b2076528346216b3b2f701e6', '0', 1, 'admin');
 
 --
 -- Índices para tablas volcadas
@@ -377,13 +383,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `carrito`
 --
 ALTER TABLE `carrito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT de la tabla `carritos_finalizados`
 --
 ALTER TABLE `carritos_finalizados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
@@ -395,7 +401,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `ordenes`
 --
 ALTER TABLE `ordenes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT de la tabla `preparacion`
@@ -407,13 +413,13 @@ ALTER TABLE `preparacion`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- Restricciones para tablas volcadas
